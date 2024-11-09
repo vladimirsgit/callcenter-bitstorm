@@ -15,7 +15,6 @@ async def upload_audio(file: UploadFile):
     file_location = f"{os.getcwd()}/app/uploaded_audio/{file.filename}"
     with open(file_location, "wb") as f:
         f.write(await file.read())
-        
             
     client = AzureOpenAI(
         api_key=OPENAI_WHISPER_API_KEY, # insert the provided api key here
@@ -42,33 +41,35 @@ async def upload_audio(file: UploadFile):
         "other",
     ]
     prompt = f"Please clasify the type of problem the customer is facing. You can only choose between the following options: {", ".join(potential_problems)}. ONE WORD ANSWER."
-    
     problem_classification_agent: Agent = Agent(prompt)
 
-    prompt = f"Please tell me if the sentiment of this customer is positive, negative or neutral. Also, add suggestions on how a human agent might handle the situation. No more than 2 sentences."
+    prompt = f"Please tell me if the sentiment of this customer is positive, negative or neutral, and give it a score from -1.00 to 1.00, using 2 decimals. Also, add suggestions on how a human agent might handle the situation. First word MUST be the sentiment, then the score, separated by a coma. Then at the end, the suggestions. Thanks!"
     sentiment_analysis_agent: Agent = Agent(prompt)
     
     problem = problem_classification_agent.generate_response(result.text)
     sentiment_and_suggestion = sentiment_analysis_agent.generate_response(result.text)
     print('Sentiment and problem classif agents called successfully')
-    root_folder = 'app/utils/bank_website_info/'
-    file_location = None
-    if problem == 'personal_loans':
-        file_location = f'{root_folder}credit_for_personal_needs.txt'
-    elif problem == 'credit_cards':
-        file_location = f'{root_folder}credit_cards.txt'
-    elif problem == 'mobile_banking':
-        file_location = f'{root_folder}mobile_banking.txt'
-    elif problem == 'savings_accounts.txt':
-        file_location = f'{root_folder}savings_accounts.txt'
+    
+    file_location = get_fil_loc_based_on_problem(problem)
 
     suggested_reading = ''
     if file_location:
         file = open(file_location, "r")
         suggested_reading = file.read()
         file.close()
-
-
-        
+    
     return {"problem": problem, "suggested_reading": suggested_reading, "sentiment_and_suggestion": sentiment_and_suggestion}
 
+
+def get_fil_loc_based_on_problem(problem):
+    root_folder = 'app/utils/bank_website_info/'
+    if problem == 'personal_loans':
+        return f'{root_folder}credit_for_personal_needs.txt'
+    elif problem == 'credit_cards':
+        return f'{root_folder}credit_cards.txt'
+    elif problem == 'mobile_banking':
+        return f'{root_folder}mobile_banking.txt'
+    elif problem == 'savings_accounts.txt':
+        return f'{root_folder}savings_accounts.txt'
+    
+    return None
