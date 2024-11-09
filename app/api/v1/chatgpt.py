@@ -4,14 +4,12 @@ import requests
 import os
 import json
 
+from app.core.constants import endpoint, api_key
 from app.models.chatgpt_response import ChatgptResponse
 router = APIRouter()
 
 @router.get("/", response_model=None)
 async def chatgpt(prompt: str):
-    endpoint = os.getenv("OPENAI_ENDPOINT")
-    api_key = os.getenv("OPENAI_API_KEY")
-    # Endpoint și cheie API
 
     # Header-ul pentru request
     headers = {
