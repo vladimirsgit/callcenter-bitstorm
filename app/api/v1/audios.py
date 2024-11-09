@@ -40,7 +40,7 @@ async def upload_audio(file: UploadFile = File(...)):
         "other",
     ]
     problem_classification_agent: Agent = Agent(
-        f"You are a call center agent. Your job is to figure out what is the type of problem that"
+        f"You are a call center agent in a bank. Your job is to figure out what is the type of problem that"
         f"the customer is facing."
         f"You can only choose between the following options: {potential_problems.join(', ')}."
          "You can only return an answer made of a single word"
