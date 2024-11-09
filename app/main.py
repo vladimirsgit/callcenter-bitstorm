@@ -2,7 +2,7 @@ from fastapi import FastAPI, Depends, HTTPException, Request
 from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi.responses import JSONResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
-
+from fastapi.middleware.cors import CORSMiddleware
 from app.core.db import init_db, get_session
 
 from app.crud.crud_item import create_item
@@ -33,3 +33,17 @@ async def general_exception_handler(request: Request, exc: Exception):
         status_code=500,
         content={"message": "An unexpected error occurred. Please try again."},
     )
+    
+origins = [
+    "http://localhost",           
+    "http://localhost:3000",   
+]
+
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,          # List of allowed origins
+    allow_credentials=True,         # Allow credentials (e.g., cookies, auth headers)
+    allow_methods=["*"],            # Allow all HTTP methods
+    allow_headers=["*"],            # Allow all headers
+)
