@@ -4,7 +4,7 @@ import requests
 import os
 import json
 
-from app.core.constants import endpoint, api_key
+from app.core.constants import OPENAI_GPT_ENDPOINT, OPENAI_GPT_API_KEY
 from app.models.chatgpt_response import ChatgptResponse
 router = APIRouter()
 
@@ -14,7 +14,7 @@ async def chatgpt(prompt: str):
     # Header-ul pentru request
     headers = {
         "Content-Type": "application/json",
-        "api-key": api_key,
+        "api-key": OPENAI_GPT_API_KEY,
     }
 
     # Datele pentru request
@@ -27,7 +27,7 @@ async def chatgpt(prompt: str):
 
     # Trimitere request
     print("Sending request")
-    response = requests.post(endpoint, headers=headers, json=data)
+    response = requests.post(OPENAI_GPT_ENDPOINT, headers=headers, json=data)
     print("Request sent")
     rsp = response.json()["choices"][0]["message"]["content"]
     result: ChatgptResponse = ChatgptResponse()

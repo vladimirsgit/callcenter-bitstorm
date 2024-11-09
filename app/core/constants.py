@@ -2,3 +2,9 @@ import os
 
 endpoint = os.getenv("OPENAI_ENDPOINT")
 api_key = os.getenv("OPENAI_API_KEY")
+
+OPENAI_GPT_API_KEY = os.getenv('OPENAI_GPT_API_KEY')
+OPENAI_GPT_ENDPOINT = os.getenv('OPENAI_GPT_ENDPOINT')
+
+OPENAI_WHISPER_API_KEY = os.getenv('OPENAI_WHISPER_API_KEY')
+OPENAI_WHISPER_ENDPOINT = os.getenv('OPENAI_WHISPER_ENDPOINT')
