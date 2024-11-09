@@ -13,7 +13,6 @@ class Agent:
 
 
     def generate_response(self, msg: str):
-        
         response = self.client.chat.completions.create(
             model="gpt-4o",
             messages=[
@@ -21,5 +20,4 @@ class Agent:
                 {"role": "user", "content": msg}
             ]
         )
-        print(response)
-        return response
+        return response.to_dict()['choices'][0]['message']['content']
