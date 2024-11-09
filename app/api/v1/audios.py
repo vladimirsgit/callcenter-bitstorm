@@ -38,15 +38,13 @@ async def upload_audio(file: UploadFile = File(...)):
         "saving_accounts",
         "other",
     ]
-    problem_classification_agent: Agent = Agent(
-        f"You are a call center agent in a bank. Your job is to figure out what is the type of problem that"
-        f"the customer is facing."
-        f"You can only choose between the following options: {potential_problems.join(', ')}."
-         "You can only return an answer made of a single word"
-        )
+    prompt = f"Please clasify the type of problem the customer is facing. You can only choose between the following options: {", ".join(potential_problems)}. ONE WORDS ANSWER."
+    
+    
+    problem_classification_agent: Agent = Agent(prompt)
 
     problem_text = problem_classification_agent.generate_response(result.text)
-
+    print(prompt, result.text)
       
     return {"transcription": result, "problem": problem_text}
 
