@@ -1,0 +1,3 @@
+
+class ChatgptResponse():
+    response: str
