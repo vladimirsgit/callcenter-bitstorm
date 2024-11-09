@@ -1,4 +1,4 @@
-FROM python:3.13-slim
+FROM python:3.10-slim
 
 # Set the working directory in the container
 WORKDIR /app
@@ -6,9 +6,15 @@ WORKDIR /app
 # Copy the requirements file into the container
 COPY requirements.txt .
 
-# Install dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+RUN apt update
 
+#RUN apt install -y python3.13 python3.13-pip
+
+
+# Install dependencies
+#RUN pip install --upgrade pip
+RUN pip install --no-cache-dir -r requirements.txt
+RUN pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
 # Copy the rest of the code into the container
 COPY . .
 
