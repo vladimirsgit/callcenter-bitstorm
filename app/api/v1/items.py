@@ -9,6 +9,8 @@ from app.crud.crud_item import get_items
 from app.models.item import Item
 
 from app.api.v1 import items
+import openai
+import os
 
 router = APIRouter()
 
@@ -20,3 +22,4 @@ async def add_item(item: Item, db_session: AsyncSession = Depends(get_session)):
 @router.get("/", response_model=list[Item])
 async def read_items(db_session: AsyncSession = Depends(get_session)):
     return await get_items(db_session)
+
