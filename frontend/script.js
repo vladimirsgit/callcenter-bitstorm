@@ -11,6 +11,7 @@ let can_record = false
 function speakText(text) {
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = 'ro-RO';  
+    utterance.rate = 1.5
     window.speechSynthesis.speak(utterance);
 }
 
@@ -28,30 +29,53 @@ toggleMic = () => {
 }
 
 recordButton.addEventListener('click', toggleMic)
-
 function sendAudioToServer(audioBlob) {
     const formData = new FormData();
+    formData.append('file', audioBlob, 'audio.mp3');
 
-    // Append the audio Blob to the FormData object
-    formData.append('file', audioBlob, 'audio.mp3'); // You can change 'audio.mp3' to any name
-
-    // Send the FormData with the audio file to the server using Fetch
     fetch("http://localhost:8000/upload-audio", {
         method: 'POST',
         body: formData,
-        
     })
     .then(response => response.json())
     .then(data => {
         console.log('Audio file uploaded successfully:', data);
+
+        // Populate response box
         
-        speakText(data['calm_down_response'])
+        document.getElementById("problem").textContent = data.problem;
         
+        document.getElementById("suggestedReading").textContent = data.suggested_reading;
+        document.getElementById("sentimentSuggestion").textContent = data.sentiment_and_suggestion;
+        document.getElementById("calmDownResponse").textContent = data.calm_down_response;
+        sent_sugg_data = data.sentiment_and_suggestion;
+        if (sent_sugg_data) {
+            let svgIcon = ''; // Placeholder for the SVG icon
+            
+            if (sent_sugg_data.slice(0, 8) === 'Negative') {
+                console.log(sent_sugg_data.slice(0, 8))
+                svgIcon = '<i class="fa-solid fa-face-angry"></i>'
+            } else if (sent_sugg_data.slice(0, 7) === 'Neutral') {
+                console.log(sent_sugg_data.slice(0, 7))
+                svgIcon = '<i class="fa-solid fa-face-meh"></i>'
+            } else {
+                console.log(sent_sugg_data.slice(0, 8))
+                svgIcon = '<i class="fa-solid fa-face-smile"></i>'
+            }
+        
+            // Insert the SVG icon into the HTML (assuming an element with ID 'sentiment-icon')
+            document.getElementById("sentiment-result").innerHTML = svgIcon;
+        }
+        // Show the response box
+        document.getElementById("responseBox").style.display = "block";
+        
+        speakText(data['calm_down_response']);
     })
     .catch(error => {
         console.error('Error uploading audio:', error);
     });
 }
+
 
 SetupStream = (stream) => {
     recorder = new MediaRecorder(stream);

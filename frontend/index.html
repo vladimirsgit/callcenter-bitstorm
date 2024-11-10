@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat App</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <div class="chat-container">
@@ -15,9 +16,25 @@
         </div>
 
         <!-- Chat messages -->
-        <div class="chat-messages" id="chatMessages">
-
+       <!-- Chat messages -->
+       <div class="chat-messages" id="chatMessages">
+        <!-- New response box for displaying the server response -->
+        <div class="response-box" id="responseBox" style="display: none;">
+            <h3>Problem analyzed successfully</h3>
+            <div class="response-content">
+                <h4>Problem:</h4>
+                <p id="problem"></p>
+                <h4>Suggested Reading:</h4>
+                <p id="suggestedReading"></p>
+                <h4>Sentiment & Suggestion:</h4>
+                <div id="sentiment-result"></div>
+                <p id="sentimentSuggestion"></p>
+                <h4>Response:</h4>
+                <p id="calmDownResponse"></p>
+            </div>
         </div>
+    </div>
+    
 
         <!-- Chat input with only the record button -->
         <div class="chat-input">

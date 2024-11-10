@@ -3,6 +3,40 @@
     padding: 0;
     box-sizing: border-box;
 }
+.response-box {
+    margin-top: 16px;
+    padding: 16px;
+    border: 1px solid #fbfb04;
+    border-radius: 8px;
+    background-color: #1a1a1a;
+    color: #fbfb04;
+}
+
+.response-box h3 {
+    font-size: 18px;
+    color: #fbfb04;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #333;
+    padding-bottom: 5px;
+}
+
+.response-box h4 {
+    font-size: 16px;
+    color: #fbfb04;
+    margin: 8px 0 4px;
+}
+
+.response-box p {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #e5e5e5;
+    margin-bottom: 10px;
+}
+
+.response-content {
+    overflow-y: auto;
+    max-height: 300px; /* Adjustable depending on container */
+}
 
 body {
     font-family: Arial, sans-serif;
@@ -34,6 +68,7 @@ body {
     text-align: center;
     color: #fbfb04;
 }
+
 
 .chat-messages {
     flex-grow: 1;
