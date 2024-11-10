@@ -44,8 +44,19 @@ function sendAudioToServer(audioBlob) {
         // Populate response box
         
         document.getElementById("problem").textContent = data.problem;
-        if(data.problem == 'personal_loans')
-             document.getElementById('problem').innerHTML += `<a href = "https://www.raiffeisen.ro/ro/persoane-fizice/produsele-noastre/credite/credite-de-nevoi-personale.html">Click pentru mai multe detalii</a>`
+        document.getElementById('problem').textContent += ' '
+        if(data.problem == 'personal_loans'){
+            document.getElementById('problem').innerHTML += `<a href = "https://www.raiffeisen.ro/ro/persoane-fizice/produsele-noastre/credite/credite-de-nevoi-personale.html">Click pentru mai multe detalii</a>`
+        } else if (data.problem == 'withdrawals')
+            document.getElementById('problem').innerHTML += `<a href = "https://www.raiffeisen.ro/ro/imm/produse-si-servicii/servicii-electronice/atm-si-multifunctionale.html">Click pentru mai multe detalii</a>`
+        else if (data.problem == 'transactions')
+            document.getElementById('problem').innerHTML += `<a href = "https://www.raiffeisen.ro/ro/imm/in-sprijinul-tau/asistenta/tranzactii-bancare-online.html">Click pentru mai multe detalii</a>`
+        else if (data.problem == 'credit_cards')
+            document.getElementById('problem').innerHTML += `<a href = "https://www.raiffeisen.ro/ro/imm/produse-si-servicii/carduri-de-credit.html">Click pentru mai multe detalii</a>`
+        else if (data.problem == 'mobile_banking')
+            document.getElementById('problem').innerHTML += `<a href = "https://www.raiffeisen.ro/ro/persoane-fizice/produsele-noastre/digital-banking/mobile-banking.html">Click pentru mai multe detalii</a>`
+        else if (data.problem == 'saving_accounts')
+            document.getElementById('problem').innerHTML += `<a href = "https://www.raiffeisen.ro/ro/persoane-fizice/produsele-noastre/economii.html">Click pentru mai multe detalii</a>`
         document.getElementById("suggestedReading").textContent = data.suggested_reading;
         document.getElementById("sentimentSuggestion").textContent = data.sentiment_and_suggestion;
         document.getElementById("calmDownResponse").textContent = data.calm_down_response;
@@ -53,14 +64,13 @@ function sendAudioToServer(audioBlob) {
         if (sent_sugg_data) {
             let svgIcon = ''; // Placeholder for the SVG icon
             
-            if (sent_sugg_data.slice(0, 8) === 'Negative') {
-                console.log(sent_sugg_data.slice(0, 8))
+            if (sent_sugg_data.slice(0, 7) === 'Negativ') {
+      
                 svgIcon = '<i class="fa-solid fa-face-angry"></i>'
-            } else if (sent_sugg_data.slice(0, 7) === 'Neutral') {
-                console.log(sent_sugg_data.slice(0, 7))
+            } else if (sent_sugg_data.slice(0, 6) === 'Neutru') {
+
                 svgIcon = '<i class="fa-solid fa-face-meh"></i>'
             } else {
-                console.log(sent_sugg_data.slice(0, 8))
                 svgIcon = '<i class="fa-solid fa-face-smile"></i>'
             }
         

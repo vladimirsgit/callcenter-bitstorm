@@ -81,7 +81,7 @@ async def upload_initial_audio_query(file: UploadFile):
     prompt = f"Please clasify the type of problem the customer is facing. You can only choose between the following options: {", ".join(potential_problems)}. ONE WORD ANSWER."
     problem_classification_agent: Agent = Agent(prompt)
 
-    prompt = f"Please tell me if the sentiment of this customer is positive, negative or neutral, and give it a score from -1.00 to 1.00, using 2 decimals. Also, add suggestions for the human agent on how they might handle the situation. First word MUST be the sentiment, then the score, separated by a coma. Then at the end, the suggestions. Thanks!"
+    prompt = f"Please tell me if the sentiment of this customer is positive, negative or neutral, and give it a score from -1.00 to 1.00, using 2 decimals. Also, add suggestions for the human agent on how they might handle the situation. First word MUST be the sentiment, then the score, separated by a coma. Then at the end, the suggestions. Answer in ROMANIAN. Thanks!"
     sentiment_analysis_agent: Agent = Agent(prompt)
     
     prompt = f"Vă rugăm să faceți clientul să se simtă înțeles și să-l asigurați că cei mai buni angajați vor intra în linie cu ei cât mai curând posibil. Veți primi ca text ceea ce au spus, astfel încât să înțelegeți problema lor, dar NU puneti intrebari suplimentare si NU folositi prescurtari ale cuvintelor DELOC. Sa fiti foarte personalizat pe problema clientului, folositi in propozitie unele cuvinte folosite de client, clientul trebuie sa inteleaga ca raspunsul este personalizat."
