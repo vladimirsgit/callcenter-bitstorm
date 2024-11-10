@@ -13,7 +13,7 @@ from app.crud.crud_convos import read_convos, add_convo
 
 router = APIRouter()
 
-@router.post("")
+@router.get("")
 async def get_convos(db_session: AsyncSession = Depends(get_session)):
     return await read_convos(db_session)
 
