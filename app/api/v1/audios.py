@@ -1,14 +1,21 @@
+<<<<<<< HEAD
 from fastapi import FastAPI, File, UploadFile, APIRouter, JSONResponse
+=======
+from fastapi import FastAPI, File, UploadFile, APIRouter, Depends
+>>>>>>> c6dc0dc9de8129baa140f335d09d0190738092dd
 from typing import Optional
 import os
+from sqlalchemy.ext.asyncio import AsyncSession
 from app.core.constants import OPENAI_WHISPER_API_KEY, OPENAI_WHISPER_ENDPOINT
 from openai import AzureOpenAI
 from app.models.agent import Agent
+from app.models.conversation import Conversation
+from app.crud.crud_convos import add_convo
+from app.core.db import get_session
 
 router = APIRouter()
 
-@router.post("")
-async def upload_audio(file: UploadFile):
+async def speech_to_text(file: UploadFile):
     if not file:
         return
     print('Opening file', file.filename)
@@ -24,12 +31,44 @@ async def upload_audio(file: UploadFile):
 
     deployment_id = "whisper"
 
-    result = client.audio.transcriptions.create(
+    whisper_res = client.audio.transcriptions.create(
         file=open(file_location, "rb"),            
         model=deployment_id,
-        language="en"
+        language="ro"
     )
     print('Whisper called successfully')
+    return whisper_res.text
+
+def split_sentiment_summary_suggestion(gpt_response):
+    # Extract suggestion
+    suggestion = gpt_response.split('suggestions_start:')[-1].strip()
+    gpt_response = gpt_response.split('suggestions_start:')[0].strip()
+    # Extract summary
+    summary = gpt_response.split('summary_start:')[-1].strip()
+    gpt_response = gpt_response.split('summary_start:')[0].strip()
+    # Extract sentiment score
+    sentiment_score = gpt_response.split('sentiment_start:')[-1].strip()
+
+    return sentiment_score, summary, suggestion
+
+@router.post("/final-conv")
+async def upload_final_conv(file: UploadFile, db_session: AsyncSession = Depends(get_session)):
+    whisper_res = await speech_to_text(file)
+    
+    prompt = "Please give the conversation a sentiment score from -1.00 to 1.00, using 2 decimals. Also, make a summary of the conversation, and then, add sugggestions so the human agent can learn. Before sentiment write 'sentiment_start:', before summary write: 'summary_start:', and before suggestions add 'suggestions_start:'. Please make sure you use this exact order. Sentiment, summary, suggestions. Thanks!"
+    sentiment_analysis_agent: Agent = Agent(prompt)
+    
+    sentiment_summary_suggestion = sentiment_analysis_agent.generate_response(whisper_res)    
+    print('Sentiment summary suggestion generated.')
+    
+    sentiment_score, summary, suggestion = split_sentiment_summary_suggestion(sentiment_summary_suggestion)
+    
+    conv: Conversation = Conversation(summary=summary, avg_sentiment=sentiment_score, ai_suggestions=suggestion)
+    return await add_convo(db_session, conv)
+    
+@router.post("")
+async def upload_initial_audio_query(file: UploadFile):
+    whisper_res = await speech_to_text(file)
     potential_problems = [
         "personal_loans",
         "withdrawals",
@@ -46,8 +85,8 @@ async def upload_audio(file: UploadFile):
     prompt = f"Please tell me if the sentiment of this customer is positive, negative or neutral, and give it a score from -1.00 to 1.00, using 2 decimals. Also, add suggestions on how a human agent might handle the situation. First word MUST be the sentiment, then the score, separated by a coma. Then at the end, the suggestions. Thanks!"
     sentiment_analysis_agent: Agent = Agent(prompt)
     
-    problem = problem_classification_agent.generate_response(result.text)
-    sentiment_and_suggestion = sentiment_analysis_agent.generate_response(result.text)
+    problem = problem_classification_agent.generate_response(whisper_res)
+    sentiment_and_suggestion = sentiment_analysis_agent.generate_response(whisper_res)
     print('Sentiment and problem classif agents called successfully')
     
     file_location = get_fil_loc_based_on_problem(problem)
