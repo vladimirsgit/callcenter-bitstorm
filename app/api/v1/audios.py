@@ -1,4 +1,4 @@
-from fastapi import FastAPI, File, UploadFile, APIRouter
+from fastapi import FastAPI, File, UploadFile, APIRouter, JSONResponse
 from typing import Optional
 import os
 from app.core.constants import OPENAI_WHISPER_API_KEY, OPENAI_WHISPER_ENDPOINT
@@ -58,7 +58,11 @@ async def upload_audio(file: UploadFile):
         suggested_reading = file.read()
         file.close()
     
-    return {"problem": problem, "suggested_reading": suggested_reading, "sentiment_and_suggestion": sentiment_and_suggestion}
+    headers = {
+        "Access-Control-Allow-Origin": "http://localhost:3000",
+        "Access-Control-Allow-Credentials": "true",
+    }
+    return JSONResponse(content = {"problem": problem, "suggested_reading": suggested_reading, "sentiment_and_suggestion": sentiment_and_suggestion}, headers = headers)
 
 
 def get_fil_loc_based_on_problem(problem):

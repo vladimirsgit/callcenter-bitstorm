@@ -27,6 +27,7 @@ async def chatgpt(prompt: str):
 
     # Trimitere request
     print("Sending request")
+    print(OPENAI_GPT_ENDPOINT)
     response = requests.post(OPENAI_GPT_ENDPOINT, headers=headers, json=data)
     print("Request sent")
     rsp = response.json()["choices"][0]["message"]["content"]
