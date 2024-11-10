@@ -33,4 +33,4 @@ async def chatgpt(prompt: str):
     rsp = response.json()["choices"][0]["message"]["content"]
     result: ChatgptResponse = ChatgptResponse()
     result.response = rsp
-    return result
+    return rsp

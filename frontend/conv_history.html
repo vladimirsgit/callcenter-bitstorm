@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversation History</title>
+    <style>
+        /* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Body styling for Dark Theme */
+body {
+    display: flex;
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+}
+
+/* Sidebar styling */
+#sidebar {
+    width: 25%;
+    background-color: #2c2c2c;
+    color: #ffdd00;
+    padding: 20px;
+    height: 100vh;
+    overflow-y: auto;
+    border-right: 2px solid #ffdd00;
+}
+
+#sidebar h2 {
+    color: #ffdd00;
+    margin-bottom: 15px;
+}
+
+/* Conversation history styling */
+.conversation {
+    background-color: #333333;
+    color: #e0e0e0;
+    border-left: 4px solid #ffdd00;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    transition: background 0.3s;
+}
+
+.conversation:hover {
+    background-color: #3d3d3d;
+}
+
+.conversation h3 {
+    color: #ffdd00;
+    font-size: 1.1em;
+    margin-bottom: 5px;
+}
+
+.conversation p {
+    font-size: 0.9em;
+    margin-bottom: 5px;
+}
+
+/* Main content styling */
+#main-content {
+    width: 75%;
+    padding: 20px;
+}
+
+#main-content h1 {
+    color: #ffdd00;
+    margin-bottom: 10px;
+}
+
+#main-content p {
+    font-size: 1em;
+    color: #cccccc;
+}
+
+    </style>
+</head>
+<body>
+    <div id="sidebar">
+        <h2>Conversation History</h2>
+        <div id="history"></div>
+    </div>
+    <div id="main-content">
+        <h1>Welcome to Raiffeisen Conversation Center</h1>
+        <p>Select a conversation to see details here.</p>
+    </div>
+
+    <script>
+        // Sample data
+        const conversations = [
+            {
+                summary: "Discussed account balance and transaction details.",
+                avg_sentiment: "Positive",
+                ai_suggestions: "Consider a savings account.",
+                created_at: new Date().toLocaleString()
+            },
+            {
+                summary: "Explored loan options and eligibility.",
+                avg_sentiment: "Neutral",
+                ai_suggestions: "Check out our new low-interest loans.",
+                created_at: new Date().toLocaleString()
+            }
+        ];
+
+        const historyContainer = document.getElementById('history');
+
+        // Render conversation history
+        conversations.forEach(conv => {
+            const conversationDiv = document.createElement('div');
+            conversationDiv.classList.add('conversation');
+            conversationDiv.innerHTML = `
+                <h3>Summary</h3>
+                <p>${conv.summary}</p>
+                <p><strong>Sentiment:</strong> ${conv.avg_sentiment}</p>
+                <p><strong>Suggestions:</strong> ${conv.ai_suggestions}</p>
+                <p><strong>Date:</strong> ${conv.created_at}</p>
+            `;
+            historyContainer.appendChild(conversationDiv);
+        });
+    </script>
+</body>
+</html>

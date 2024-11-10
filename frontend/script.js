@@ -8,6 +8,12 @@ let recorder;
 let audioChunks = [];
 let can_record = false
 
+function speakText(text) {
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'ro-RO';  
+    window.speechSynthesis.speak(utterance);
+}
+
 toggleMic = () => {
     if (!can_record) return;
     isRecording = !isRecording
@@ -38,6 +44,9 @@ function sendAudioToServer(audioBlob) {
     .then(response => response.json())
     .then(data => {
         console.log('Audio file uploaded successfully:', data);
+        
+        speakText(data['calm_down_response'])
+        
     })
     .catch(error => {
         console.error('Error uploading audio:', error);
