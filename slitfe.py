@@ -19,7 +19,7 @@ conversations = [
 ]
 
 # Setting Page Configuration
-st.set_page_config(page_title="Raiffeisen Bank Conversations", page_icon="🏦", layout="wide")
+st.set_page_config(page_title="Raiffeisen Call Sights", page_icon="🏦", layout="wide")
 
 # Custom CSS to hide the sidebar
 st.markdown(
@@ -35,7 +35,7 @@ st.markdown(
 )
 
 # Main area header
-st.markdown("<h1 style='color: #FFCC00;'>Raiffeisen Bank Conversation Analysis</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='color: #FFCC00;'>Raiffeisen Call Sights</h1>", unsafe_allow_html=True)
 
 # Fetch conversations
 conversations = requests.get('http://localhost:8000/convos').json()
