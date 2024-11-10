@@ -44,7 +44,8 @@ function sendAudioToServer(audioBlob) {
         // Populate response box
         
         document.getElementById("problem").textContent = data.problem;
-        
+        if(data.problem == 'personal_loans')
+             document.getElementById += "<a href = "https://www.raiffeisen.ro/content/dam/rbi/retail/eu/ro//documents/pf/tarife-comisioane-standard-pf.pdf.sv.pdf">Click pentru mai multe detalii</a>"
         document.getElementById("suggestedReading").textContent = data.suggested_reading;
         document.getElementById("sentimentSuggestion").textContent = data.sentiment_and_suggestion;
         document.getElementById("calmDownResponse").textContent = data.calm_down_response;
