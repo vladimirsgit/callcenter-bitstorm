@@ -10,14 +10,19 @@ When an audio recording of a client is sent to the system, Call Sights:
 - Generates text to speech voice that gives a detailed and personalized response to the user.
 
 #### Examples:
-- ![Suggestions and Summary](project_presentation/part1_1.png) – Analysis report for a neutral client, offering suggestions and a summary.
-- ![Personalized Response](project_presentation/part1_2.png) – Text-to-speech response generated for an angry client, providing a calm and tailored reply.
+![Suggestions and Summary](project_presentation/part1_1.png)  
+*Analysis report for a neutral client, offering suggestions and a summary.*
+
+![Personalized Response](project_presentation/part1_2.png)  
+*Text-to-speech response generated for an angry client, providing a calm and tailored reply.*
+
 
 ### 2. Manager Dashboard on Calls Analysis
 Call Sights offers a dashboard for managers to monitor and analyze interactions handled by each call center agent:
 - Provides insights into agent performance and interaction history.
 - Displays detailed reports for each call after the initial analysis, allowing managers to track and improve team efficiency.
-![Insights for the call between the human agent and the client](project_presentation/part2.png) - An AI agent gives a detailed analysis of the conversation
+![Insights for the call between the human agent and the client](project_presentation/part2.png)
+*An AI agent gives a detailed analysis of the conversation.*
 
 ## Technology Stack
 - **Whisper API**: Used for high-quality transcription of call audio.
